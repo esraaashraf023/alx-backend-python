@@ -1,23 +1,16 @@
 #!/usr/bin/env python3
-"""
-task 1....
-"""
+"""takes 2..."""
 
 
-import typing
 import asyncio
 from typing import List
-wait_random = __import__('0-basic_async_syntax').wait_random
+
+task_wait_random = __import__('3-tasks').task_wait_random
 
 
-async def wait_n(n: int, max_delay: int) -> typing.List[float]:
-    """
-    Import wait_random from the previous python file that you’ve written and write an async routine...
-    """
-    Q_delayes = []
-    for _ in range(n):
-        Q_delayes.append(wait_random(max_delay))
-    out_put = []
-    for k in asyncio.as_completed(Q_delayes):
-        out_put.append(await k)
-    return out_put
+async def wait_n(n: int, max_delay: int) -> List[float]:
+    """ that takes in 2 int arguments (in this order):n and max_delay.
+    You will spawn wait_random n times with the specified max_delay."""
+    tasks = [asyncio.create_task(task_wait_random(max_delay)) for _ in range(n)]
+    results = await asyncio.gather(*tasks)
+    return sorted(results)
