@@ -17,9 +17,7 @@ async def wait_n(n: int, max_delay: int) -> typing.List[float]:
     Q_delayes = []
     for _ in range(n):
         Q_delayes.append(wait_random(max_delay))
-
     out_put = []
     for k in asyncio.as_completed(Q_delayes):
         out_put.append(await k)
-
     return out_put
