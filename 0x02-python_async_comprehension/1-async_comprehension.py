@@ -12,8 +12,5 @@ async def async_comprehension() -> typing.List[float]:
     """
     coroutine will collect 10 random numbers using an async
     """
-    output = []
-    async for value in async_generator():
-        output.append(value)
-
+    output = [value async for value in async_generator()]
     return output
