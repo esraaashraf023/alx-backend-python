@@ -14,7 +14,7 @@ class TestGithubOrgClient(unittest.TestCase):
     @parameterized.expand([
         'google',
         'abc'
-    ])
+        ])
     @patch('client.get_json')
     def test_org(self, org_name, mock_get: Mock):
         """Test org name"""
@@ -28,7 +28,7 @@ class TestGithubOrgClient(unittest.TestCase):
     def test_public_repos_url(self):
         """test public repos url"""
         with patch.object(GithubOrgClient, 'org',
-                          new_callable=PropertyMock) as mock_org:
+                new_callable=PropertyMock) as mock_org:
             url = "https://google.com"
             mock_org.return_value = {"repos_url": url}
 
@@ -39,25 +39,25 @@ class TestGithubOrgClient(unittest.TestCase):
     def test_public_repos(self, get_mock):
         """test public repos method"""
         get_mock.return_value = [
-            {"name": "repo1", "license": {"key": "MIT"}},
-            {"name": "repo2", "license": {"key": "Apache"}}
-        ]
+                {"name": "repo1", "license": {"key": "MIT"}},
+                {"name": "repo2", "license": {"key": "Apache"}}
+                ]
 
         with patch.object(GithubOrgClient,
-                          '_public_repos_url',
-                          new_callable=PropertyMock) as repos_mock:
+                '_public_repos_url',
+                new_callable=PropertyMock) as repos_mock:
             repos_mock.return_value = "mocked_repos_url"
 
             github_client = GithubOrgClient("mocked_repos_url")
             self.assertEqual(github_client.public_repos(license="MIT"),
-                             ["repo1"])
+                    ["repo1"])
             get_mock.assert_called_once()
             repos_mock.assert_called_once()
 
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False)
-    ])
+        ])
     def test_has_license(self, repo, license, result):
         """test has license"""
         github_client = GithubOrgClient("org_name")
